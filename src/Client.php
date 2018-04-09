@@ -22,6 +22,7 @@ use Panthere\DomCrawler\Form as PanthereForm;
 use Panthere\DomCrawler\Link as PanthereLink;
 use Panthere\ProcessManager\BrowserManagerInterface;
 use Panthere\ProcessManager\ChromeManager;
+use Panthere\ProcessManager\FirefoxManager;
 use Symfony\Component\BrowserKit\Client as BaseClient;
 use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\BrowserKit\Response;
@@ -47,6 +48,11 @@ final class Client extends BaseClient implements WebDriver
     public static function createChromeClient(?string $chromeDriverBinary = null, ?array $arguments = null): self
     {
         return new self(new ChromeManager($chromeDriverBinary, $arguments));
+    }
+
+    public static function createFirefoxClient(?string $geckodriverBinary = null): self
+    {
+        return new self(new FirefoxManager($geckodriverBinary));
     }
 
     public function __construct(BrowserManagerInterface $browserManager)
@@ -237,6 +243,7 @@ final class Client extends BaseClient implements WebDriver
 
         $this->request = $this->internalRequest = new Request($uri, 'GET');
         $this->webDriver->get($uri);
+
         $this->response = $this->internalResponse = new Response($this->webDriver->getPageSource());
         $this->crawler = $this->createCrawler();
 

@@ -68,10 +68,10 @@ final class ChromeManager implements BrowserManagerInterface
         switch (PHP_OS_FAMILY) {
             case 'Windows':
                 return __DIR__.'/../../chromedriver-bin/chromedriver.exe';
-                break;
+
             case 'Darwin':
                 return __DIR__.'/../../chromedriver-bin/chromedriver_mac64';
-                break;
+
             default:
                 return __DIR__.'/../../chromedriver-bin/chromedriver_linux64';
         }

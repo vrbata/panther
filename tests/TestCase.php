@@ -32,8 +32,9 @@ abstract class TestCase extends PanthereTestCase
     {
         // Tests must pass with both Panthere and Goutte
         return [
-            [[static::class, 'createGoutteClient'], GoutteClient::class],
-            [[static::class, 'createPanthereClient'], PanthereClient::class],
+            [[static::class, 'createGoutteClient'], GoutteClient::class, 'goutte'],
+            [[static::class, 'createPanthereClient'], PanthereClient::class, 'chrome'],
+            [function () { return self::createPanthereClient(self::FIREFOX); }, PanthereClient::class, 'firefox'],
         ];
     }
 

@@ -12,9 +12,15 @@
       "homepage": "https://dunglas.fr"
     }
   ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/dunglas/php-webdriver"
+    }
+  ],
   "require": {
     "php": ">=7.2",
-    "facebook/webdriver": "^1.5",
+    "facebook/webdriver": "dev-geckodriver",
     "symfony/browser-kit": "^4.0",
     "symfony/process": "^4.0"
   },

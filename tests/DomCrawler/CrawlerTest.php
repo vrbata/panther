@@ -215,11 +215,11 @@ class CrawlerTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testExtract(callable $clientFactory): void
+    public function testExtract(callable $clientFactory, string $type, string $browser): void
     {
         $crawler = $this->request($clientFactory, '/basic.html');
 
-        $this->assertSame([['', 'Sibling'], ['foo', 'Sibling 2'], ['', 'Sibling 3']], $crawler->filter('main > p')->extract(['class', '_text']));
+        $this->assertSame([['firefox' === $browser ? null : '', 'Sibling'], ['foo', 'Sibling 2'], ['firefox' === $browser ? null : '', 'Sibling 3']], $crawler->filter('main > p')->extract(['class', '_text']));
 
         // Uncomment when https://github.com/symfony/symfony/pull/26433 will be merged
         //$this->assertSame([[], [], []], $crawler->filter('main > p')->extract([]));

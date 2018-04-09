@@ -40,6 +40,9 @@ if (\class_exists(WebTestCase::class)) {
  */
 abstract class PanthereTestCase extends InternalTestCase
 {
+    public const CHROME = 'chrome';
+    public const FIREFOX = 'firefox';
+
     /**
      * @var string|null
      */
@@ -63,7 +66,12 @@ abstract class PanthereTestCase extends InternalTestCase
     /**
      * @var PanthereClient|null
      */
-    protected static $panthereClient;
+    protected static $panthereChromeClient;
+
+    /**
+     * @var PanthereClient|null
+     */
+    protected static $panthereFirefoxClient;
 
     public static function tearDownAfterClass()
     {
@@ -72,9 +80,14 @@ abstract class PanthereTestCase extends InternalTestCase
             self::$webServerManager = null;
         }
 
-        if (null !== self::$panthereClient) {
-            self::$panthereClient->quit();
-            self::$panthereClient = null;
+        if (null !== self::$panthereChromeClient) {
+            self::$panthereChromeClient->quit();
+            self::$panthereChromeClient = null;
+        }
+
+        if (null !== self::$panthereFirefoxClient) {
+            self::$panthereFirefoxClient->quit();
+            self::$panthereFirefoxClient = null;
         }
 
         if (null !== self::$goutteClient) {
@@ -99,14 +112,23 @@ abstract class PanthereTestCase extends InternalTestCase
         self::$baseUri = 'http://127.0.0.1:9000';
     }
 
-    protected static function createPanthereClient(): PanthereClient
+    protected static function createPanthereClient(string $browser = null): PanthereClient
     {
         self::startWebServer();
-        if (null === self::$panthereClient) {
-            self::$panthereClient = Client::createChromeClient();
+
+        if (self::FIREFOX === $browser) {
+            if (null === self::$panthereFirefoxClient) {
+                self::$panthereFirefoxClient = Client::createFirefoxClient();
+            }
+
+            return self::$panthereFirefoxClient;
         }
 
-        return self::$panthereClient;
+        if (null === self::$panthereChromeClient) {
+            self::$panthereChromeClient = Client::createChromeClient();
+        }
+
+        return self::$panthereChromeClient;
     }
 
     protected static function createGoutteClient(): GoutteClient

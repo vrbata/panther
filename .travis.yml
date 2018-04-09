@@ -1,6 +1,7 @@
 language: php
 addons:
   chrome: stable
+  firefox: latest
 
 php:
   - 7.2

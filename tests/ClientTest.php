@@ -69,7 +69,7 @@ class ClientTest extends TestCase
     /**
      * @dataProvider clientFactoryProvider
      */
-    public function testSubmitForm(callable $clientFactory, string $type): void
+    public function testSubmitForm(callable $clientFactory, string $type, string $browser): void
     {
         /**
          * @var \Symfony\Component\BrowserKit\Client

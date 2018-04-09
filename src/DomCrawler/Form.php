@@ -50,6 +50,8 @@ final class Form extends BaseForm
     {
         $this->webDriver = $webDriver;
         $this->setElement($element);
+
+        $this->currentUri = $webDriver->getCurrentURL();
     }
 
     private function setElement(WebDriverElement $element)
@@ -275,7 +277,7 @@ final class Form extends BaseForm
     private function getValue(WebDriverElement $element)
     {
         if (null === $webDriverSelect = $this->getWebDriverSelect($element)) {
-            return $element->getAttribute('value') ?? '';
+            return $this->webDriver->executeScript('return arguments[0].value', [$element]);
         }
 
         if (!$webDriverSelect->isMultiple()) {
