@@ -93,6 +93,7 @@ trait PantherTestCaseTrait
                 $pantherClient->quit(false);
             }
 
+            self::$pantherClient->quit();
             self::$pantherClient->getBrowserManager()->quit();
             self::$pantherClient = null;
             self::$pantherClients = [];
